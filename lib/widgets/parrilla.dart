@@ -7,7 +7,7 @@ import 'package:flip_card/flip_card.dart';
 class Parrilla extends StatefulWidget {
   final Nivel? nivel;
 
-  const Parrilla(this.nivel, {Key? key}) : super(key: key);
+  const Parrilla(this.nivel, {super.key});
 
   @override
   _ParrillaState createState() => _ParrillaState();

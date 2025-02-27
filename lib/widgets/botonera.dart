@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memo/config/config.dart';
 
 class Botonera extends StatefulWidget {
-  const Botonera({Key? key}) : super(key: key);
+  const Botonera({super.key});
 
   @override
   _BotoneraState createState() => _BotoneraState();
