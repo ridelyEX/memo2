@@ -31,11 +31,6 @@ class _ParrillaState extends State<Parrilla>  {
     flag = false;
     habilitado = false;
 
-    for(int i=0;i<baraja.length;i++){
-      estados.add(true);
-      controles.add(FlipCardController());
-    }
-
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
         mostrarFrente = false;

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:memo/config/config.dart';
 import 'package:memo/widgets/parrilla.dart';
+import 'package:memo/widgets/headbar.dart';
 
 class Tablero extends StatefulWidget {
   final Nivel? nivel;
@@ -15,12 +16,18 @@ class _TableroState extends State<Tablero> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Nivel:${widget.nivel?.name }"),)
-      header: ,
-      body: Parrilla(widget.nivel) ,
-
+      appBar: AppBar(title: Text("Nivel:${widget.nivel?.name }"),),
+      body: Column(
+        children: [
+        Headbar(),
+      Parrilla(widget.nivel) ,
+      ],
+      ),
     );
-
   }
 
 }
+
+
+
+
