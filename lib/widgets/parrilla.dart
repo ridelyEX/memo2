@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import '../config/config.dart';
 import 'package:flip_card/flip_card.dart';
@@ -15,7 +16,9 @@ class Parrilla extends StatefulWidget {
 
 class _ParrillaState extends State<Parrilla>  {
   int? prevclicked;
-  bool? flag, habilitado;
+  bool? flag, habilitado = false;
+  bool mostrarFrente = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -28,19 +31,24 @@ class _ParrillaState extends State<Parrilla>  {
     flag = false;
     habilitado = false;
 
-   WidgetsBinding.instance.addPostFrameCallback((_){
-     for(var i =0;i<controles.length;i++){
-       controles[i].toggleCard();
-     }
-     Future.delayed(Duration(seconds:3),(){
-       for (var i=0; i<controles.length;i++){
-         controles[i].toggleCard();
-       }
-       setState(() {
-         habilitado = true;
-       });
-     });
-   });
+    for(int i=0;i<baraja.length;i++){
+      estados.add(true);
+      controles.add(FlipCardController());
+    }
+
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        mostrarFrente = false;
+        habilitado = true;
+      });
+      for (int i=0;i<controles.length;i++){
+        Future.delayed(Duration(milliseconds: 100*i),() {
+          if (controles[i].state?.isFront == true){
+            controles[i].toggleCard();
+          }
+        },);
+      }
+    });
   }
 
   @override
@@ -92,9 +100,11 @@ class _ParrillaState extends State<Parrilla>  {
               }
             },
             fill: Fill.fillBack,
+            direction: FlipDirection.HORIZONTAL,
+            side: mostrarFrente ? CardSide.BACK : CardSide.FRONT,
             controller: controles[index],
             // autoFlipDuration: const Duration(milliseconds: 500),
-            flipOnTouch: habilitado! ? estados.elementAt(index) : false,
+            flipOnTouch: !mostrarFrente && habilitado! && estados[index],
             //side: CardSide.FRONT,
             front: Image.asset("images/quest.png"),
             back: Image.asset(baraja[index]));
@@ -103,3 +113,6 @@ class _ParrillaState extends State<Parrilla>  {
   }
 
 }
+
+
+

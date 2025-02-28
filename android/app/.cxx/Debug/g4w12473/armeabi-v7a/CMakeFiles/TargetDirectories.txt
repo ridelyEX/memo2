@@ -1,0 +1,2 @@
+C:/Users/artur/Documents/quinto/MultiProgramer/memo/memo/android/app/.cxx/Debug/g4w12473/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/artur/Documents/quinto/MultiProgramer/memo/memo/android/app/.cxx/Debug/g4w12473/armeabi-v7a/CMakeFiles/rebuild_cache.dir

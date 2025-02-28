@@ -15,7 +15,8 @@ class _TableroState extends State<Tablero> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Nivel:${widget.nivel?.name }"),),
+      appBar: AppBar(title: Text("Nivel:${widget.nivel?.name }"),)
+      header: ,
       body: Parrilla(widget.nivel) ,
 
     );
