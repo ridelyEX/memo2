@@ -19,7 +19,7 @@ class _TableroState extends State<Tablero> {
       appBar: AppBar(title: Text("Nivel:${widget.nivel?.name }"),),
       body: Column(
         children: [
-        Headbar(),
+        //Headbar(),
       Parrilla(widget.nivel) ,
       ],
       ),
