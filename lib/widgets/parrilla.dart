@@ -26,7 +26,21 @@ class _ParrillaState extends State<Parrilla>  {
     barajar(widget.nivel!);
     prevclicked = -1;
     flag = false;
-    habilitado = true;
+    habilitado = false;
+
+   WidgetsBinding.instance.addPostFrameCallback((_){
+     for(var i =0;i<controles.length;i++){
+       controles[i].toggleCard();
+     }
+     Future.delayed(Duration(seconds:3),(){
+       for (var i=0; i<controles.length;i++){
+         controles[i].toggleCard();
+       }
+       setState(() {
+         habilitado = true;
+       });
+     });
+   });
   }
 
   @override
