@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import '../config/config.dart';
@@ -14,31 +13,29 @@ class Parrilla extends StatefulWidget {
   _ParrillaState createState() => _ParrillaState();
 }
 
-class _ParrillaState extends State<Parrilla>  {
-  int? prevclicked;
-  bool? flag, habilitado = false;
-
+class _ParrillaState extends State<Parrilla> {
+  int? prevClicked;
+  bool flag = false;
+  bool habilitado = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controles = [];
     baraja = [];
     estados = [];
     barajar(widget.nivel!);
-    prevclicked = -1;
+    prevClicked = -1;
     flag = false;
     habilitado = false;
 
-
-
+    // Después de 3 segundos, mostrar todas las cartas y habilitar el juego
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
-        for (int i=0;i<baraja.length;i++){
-          controles[i].toggleCard();
+        for (int i = 0; i < baraja.length; i++) {
+          controles[i].toggleCard(); // Voltear todas las cartas
         }
-        habilitado = true;
+        habilitado = true; // Habilitar el juego
       });
     });
   }
@@ -49,60 +46,55 @@ class _ParrillaState extends State<Parrilla>  {
       itemCount: baraja.length,
       shrinkWrap: true,
       gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+      SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
       itemBuilder: (context, index) {
         return FlipCard(
-            onFlip: () {
-              if (!flag!) {
-                prevclicked = index;
-                estados[index] = false;
-              } else {
-                setState(() {
-                  habilitado = false;
-                });
-              }
-              flag = !flag!;
-              estados[index] = false;
+          onFlip: () {
+            if (!habilitado) return; // Si el juego no está habilitado, no hacer nada
 
-              if (prevclicked != index && !flag!) {
-                if (baraja.elementAt(index) == baraja.elementAt(prevclicked!)) {
-                  debugPrint("clicked:Son iguales");
+            if (!flag) {
+              // Primer clic en una carta
+              prevClicked = index;
+              estados[index] = false; // Deshabilitar la carta clickeada
+              flag = true;
+            } else {
+              // Segundo clic en una carta
+              if (prevClicked != index) {
+                setState(() {
+                  habilitado = false; // Deshabilitar el juego temporalmente
+                });
+
+                if (baraja[index] == baraja[prevClicked!]) {
+                  // Si las cartas son iguales
+                  debugPrint("Son iguales");
                   setState(() {
-                    habilitado = true;
+                    estados[index] = false;
+                    estados[prevClicked!] = false;
+                    habilitado = true; // Habilitar el juego nuevamente
                   });
                 } else {
-                  Future.delayed(
-                    Duration(seconds: 1),
-                    () {
-                      controles.elementAt(prevclicked!).toggleCard();
-                      estados[prevclicked!] = true;
-                      prevclicked = index;
-                      controles.elementAt(index).toggleCard();
+                  // Si las cartas no son iguales, voltearlas de nuevo después de 1 segundo
+                  Future.delayed(Duration(seconds: 1), () {
+                    setState(() {
+                      controles[prevClicked!].toggleCard();
+                      controles[index].toggleCard();
+                      estados[prevClicked!] = true;
                       estados[index] = true;
-                      setState(() {
-                        habilitado = true;
-                      });
-                    },
-                  );
+                      habilitado = true; // Habilitar el juego nuevamente
+                    });
+                  });
                 }
-              } else {
-                setState(() {
-                  habilitado = true;
-                });
+                flag = false; // Reiniciar el estado de "flag"
               }
-            },
-            fill: Fill.fillBack,
-            controller: controles[index],
-            // autoFlipDuration: const Duration(milliseconds: 500),
-            flipOnTouch: habilitado! ? estados.elementAt(index) : false,
-            //side: CardSide.FRONT,
-            back: Image.asset("images/quest.png"),
-            front: Image.asset(baraja[index]));
+            }
+          },
+          fill: Fill.fillBack,
+          controller: controles[index],
+          flipOnTouch: habilitado ? estados[index] : false,
+          back: Image.asset("images/quest.png"),
+          front: Image.asset(baraja[index]),
+        );
       },
     );
   }
-
 }
-
-
-

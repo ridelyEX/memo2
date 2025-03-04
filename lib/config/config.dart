@@ -74,27 +74,27 @@ List<String> baraja =[];
 List<FlipCardController> controles =[];
 List<bool> estados = [];
 
-void barajar(Nivel nivel){
-  int size =0;
+void barajar(Nivel nivel) {
+  int size = 0;
 
-  switch(nivel){
+  switch (nivel) {
     case Nivel.facil:
-      size =16;
+      size = 16;
       break;
     case Nivel.medio:
-      size =24;
+      size = 24;
       break;
     case Nivel.dificil:
-      size =32;
+      size = 32;
       break;
     case Nivel.imposible:
-      size =36;
+      size = 36;
       break;
   }
-  for(int i=0;i<size;i++){
-    controles.add(FlipCardController());
-    estados.add(true);
-  }
-  baraja = cards().sublist(0,size);
+
+  baraja = cards().sublist(0, size);
   baraja.shuffle();
+
+  controles = List.generate(size, (index) => FlipCardController());
+  estados = List.generate(size, (index) => true);
 }
