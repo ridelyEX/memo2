@@ -17,7 +17,7 @@ class Parrilla extends StatefulWidget {
 class _ParrillaState extends State<Parrilla>  {
   int? prevclicked;
   bool? flag, habilitado = false;
-  bool mostrarFrente = true;
+
 
   @override
   void initState() {
@@ -31,18 +31,15 @@ class _ParrillaState extends State<Parrilla>  {
     flag = false;
     habilitado = false;
 
+
+
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
-        mostrarFrente = false;
+        for (int i=0;i<baraja.length;i++){
+          controles[i].toggleCard();
+        }
         habilitado = true;
       });
-      for (int i=0;i<controles.length;i++){
-        Future.delayed(Duration(milliseconds: 100*i),() {
-          if (controles[i].state?.isFront == true){
-            controles[i].toggleCard();
-          }
-        },);
-      }
     });
   }
 
@@ -95,14 +92,12 @@ class _ParrillaState extends State<Parrilla>  {
               }
             },
             fill: Fill.fillBack,
-            direction: FlipDirection.HORIZONTAL,
-            side: mostrarFrente ? CardSide.BACK : CardSide.FRONT,
             controller: controles[index],
             // autoFlipDuration: const Duration(milliseconds: 500),
-            flipOnTouch: !mostrarFrente && habilitado! && estados[index],
+            flipOnTouch: habilitado! ? estados.elementAt(index) : false,
             //side: CardSide.FRONT,
-            front: Image.asset("images/quest.png"),
-            back: Image.asset(baraja[index]));
+            back: Image.asset("images/quest.png"),
+            front: Image.asset(baraja[index]));
       },
     );
   }
