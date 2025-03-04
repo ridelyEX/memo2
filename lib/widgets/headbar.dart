@@ -1,62 +1,57 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import '../config/config.dart';
+class Headbar extends StatelessWidget {
+  final int paresEncontrados;
+  final int movimientos;
+  final String tiempo;
 
-class Headbar extends StatefulWidget {
-
-  final Nivel? nivel;
-  const Headbar(this.nivel, {super.key});
-
-  @override
-  _HeadbarState createState() => _HeadbarState();
-}
-
-
-
-class _HeadbarState extends State<Headbar> {
-
-  int? cont, mov, pares;
-  int seg=0,min=0;
-  bool? par = false;
-
-  void _contadorTiempo() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        seg++;
-        if (seg>60) {
-          seg=0;
-          min++;
-        }
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _contadorTiempo();
-  }
+  const Headbar({
+    super.key,
+    required this.paresEncontrados,
+    required this.movimientos,
+    required this.tiempo,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.blueGrey[900],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Tiempo: ${min.toString().padLeft(2, '0')}:${seg.toString().padLeft(2, '0')}",
-            style: TextStyle(color: Colors.black, fontSize: 18),
+        padding: const EdgeInsets.symmetric(vertical: 15),
+    decoration: BoxDecoration(
+    color: Colors.blueGrey[900],
+    boxShadow: const [
+    BoxShadow(
+    color: Colors.black26,
+    blurRadius: 10,
+    offset: Offset(0, 3),
+    ),
+    ],
+    ),
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+    _buildStat(Icons.check, paresEncontrados.toString()),
+    _buildStat(Icons.timer, tiempo),
+    _buildStat(Icons.touch_app, movimientos.toString()),
+    ],
+    ),
+    );
+  }
+
+  Widget _buildStat(IconData icon, String value) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, color: Colors.white70, size: 28),
+        const SizedBox(width: 8),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
